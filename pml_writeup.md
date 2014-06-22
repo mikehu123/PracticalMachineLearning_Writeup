@@ -98,7 +98,10 @@ fitRPART <- train(classe ~ ., method = "rpart", data = trainData)
 
 ```r
 fitRF <- randomForest(classe ~ ., data = trainData)
-# fitGBM <- train(classe ~.,method='gbm', data = trainData2, verbose=FALSE)
+```
+
+```r
+fitGBM <- train(classe ~.,method='gbm', data = trainData2, verbose=FALSE)
 ```
 
 
@@ -159,7 +162,38 @@ fitRF
 ```
 
 ```r
-# fitGBM
+fitGBM
+```
+
+```
+##
+## Stochastic Gradient Boosting 
+##
+## 13737 samples
+##   52 predictors
+##    5 classes: 'A', 'B', 'C', 'D', 'E' 
+##
+## No pre-processing
+## Resampling: Bootstrapped (25 reps) 
+##
+## Summary of sample sizes: 13737, 13737, 13737, 13737, 13737, 13737, ... 
+##
+## Resampling results across tuning parameters:
+##
+##   interaction.depth  n.trees  Accuracy  Kappa  Accuracy SD  Kappa SD
+##   1                  50       0.754     0.689  0.00735      0.00933 
+##   1                  100      0.817     0.768  0.00509      0.00653 
+##   1                  150      0.852     0.812  0.00529      0.00672 
+##   2                  50       0.854     0.815  0.00602      0.00768 
+##   2                  100      0.906     0.88   0.00382      0.00487 
+##   2                  150      0.928     0.909  0.00377      0.00479 
+##   3                  50       0.895     0.867  0.00493      0.00627 
+##   3                  100      0.938     0.922  0.0037       0.00471 
+##   3                  150      0.957     0.945  0.00344      0.00435 
+##
+## Tuning parameter 'shrinkage' was held constant at a value of 0.1
+## Accuracy was used to select the optimal model using  the largest value.
+## The final values used for the model were n.trees = 150, interaction.depth = 3 and shrinkage = 0.1. 
 ```
 
 ### Cross Validation and Out of Sample Error Rate
@@ -177,8 +211,16 @@ error_rate_oos_RPART
 
 ```r
 
-# cvPredictionsGBM <- predict(fitGBM,cvData) error_rate_oos_GBM <-
-# 1-sum(cvData$classe==cvPredictionsGBM)/length(cvData$classe)
+cvPredictionsGBM <- predict(fitGBM,cvData) error_rate_oos_GBM <-
+error_rate_oos_GBM <- 1-sum(cvData$classe==cvPredictionsGBM)/length(cvData$classe)
+error_rate_oos_GBM
+```
+
+```
+## [1] 0.03126593
+```
+
+```r
 
 cvPredictionsRF <- predict(fitRF, cvData)
 error_rate_oos_RF <- 1 - sum(cvData$classe == cvPredictionsRF)/length(cvData$classe)
